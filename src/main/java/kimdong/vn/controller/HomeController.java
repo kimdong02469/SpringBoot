@@ -8,6 +8,6 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String home() {
-		return "web/home";
+		return "index"; // Trỏ tới file index.jsp nằm trong thư mục views
 	}
 }
