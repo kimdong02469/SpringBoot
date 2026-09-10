@@ -21,7 +21,7 @@ public class Category implements Serializable {
 	private String images;
 
 	@Column(name = "status")
-	private int status;
+	private Integer status;
 
 	public Category() {
 	}
@@ -57,11 +57,11 @@ public class Category implements Serializable {
 		this.images = images;
 	}
 
-	public int getStatus() {
-		return status;
-	}
+	public Integer getStatus() {
+        return status;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

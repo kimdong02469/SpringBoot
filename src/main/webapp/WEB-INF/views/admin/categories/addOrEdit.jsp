@@ -5,61 +5,63 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Add or Edit Category</title>
+<title>List Categories</title>
 </head>
 <body>
-	<form action="<c:url value="/admin/categories/saveOrUpdate" />"
-		method="POST" enctype="multipart/form-data">
-		<div class="card">
-			<div class="card-header">
-				<h2>${category.isEdit ? 'Edit Category' : 'Add New Category'}</h2>
-			</div>
-			<div class="card-body">
-				<!-- Hidden field để truyền trạng thái isEdit về Controller -->
-				<input type="hidden" name="isEdit" value="${category.isEdit}">
+	<c:if test="${message != null}">
+		<div class="alert alert-primary" role="alert">
+			<i>${message}</i>
+		</div>
+	</c:if>
 
-				<div class="mb-3">
-					<label for="categoryId" class="form-label">Category ID:</label> <input
-						type="text" readonly="readonly" class="form-control"
-						value="${category.categoryId}" id="categoryId" name="categoryId"
-						placeholder="Category Id">
-				</div>
-
-				<div class="mb-3">
-					<label for="categoryname" class="form-label">Category Name:</label>
-					<input type="text" class="form-control"
-						value="${category.categoryname}" id="categoryname"
-						name="categoryname" placeholder="Category Name"
-						required="required">
-				</div>
-
-				<div class="mb-3">
-					<label for="images" class="form-label">Images:</label> <input
-						type="text" class="form-control" value="${category.images}"
-						id="images" name="images" placeholder="Image file name">
-				</div>
-
-				<div class="mb-3">
-					<label for="status" class="form-label">Status:</label> <input
-						type="number" class="form-control" value="${category.status}"
-						id="status" name="status" placeholder="Status">
-				</div>
-			</div>
-			<div class="card-footer text-muted">
-				<a href="<c:url value="/admin/categories/add"/>"
-					class="btn btn-secondary">New</a> <a
-					href="<c:url value="/admin/categories" />" class="btn btn-success">List
-					Categories</a>
-				<button class="btn btn-primary" type="submit">
-					<c:if test="${category.isEdit}">
-						<span>Update</span>
-					</c:if>
-					<c:if test="${!category.isEdit}">
-						<span>Save</span>
-					</c:if>
-				</button>
+	<div class="card">
+		<div class="card-header">
+			<h2>List Categories</h2>
+			<div class="d-flex justify-content-between align-items-center mb-3">
+				<form action="/admin/categories" method="get" class="form-inline">
+					<div class="input-group">
+						<input type="text" class="form-control" name="keyword"
+							value="${keyword}" placeholder="Search category name...">
+						<button class="btn btn-outline-primary" type="submit">Search</button>
+						<c:if test="${not empty keyword}">
+							<a href="/admin/categories"
+								class="btn btn-outline-secondary ms-2">Reset</a>
+						</c:if>
+					</div>
+				</form>
+				<a href="/admin/categories/add" class="btn btn-success">Add New
+					Category</a>
 			</div>
 		</div>
-	</form>
+		<div class="card-body">
+			<table class="table table-striped table-responsive">
+				<thead class="thead-inverse">
+					<tr>
+						<th>Category ID</th>
+						<th>Category Name</th>
+						<th>Images</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${categories}" var="category">
+						<tr>
+							<td scope="row">${category.categoryId}</td>
+							<td>${category.categoryname}</td>
+							<td>${category.images}</td>
+							<td>${category.status}</td>
+							<td><a href="/admin/categories/edit/${category.categoryId}"
+								class="btn btn-outline-warning">Edit</a> <a
+								href="/admin/categories/delete/${category.categoryId}"
+								class="btn btn-outline-danger"
+								onclick="return confirm('Are you sure to delete this category?');">Delete</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>
